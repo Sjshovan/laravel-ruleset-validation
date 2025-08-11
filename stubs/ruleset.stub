@@ -1,0 +1,13 @@
+<?php
+
+namespace {{ NAMESPACE }};
+{{ USE_STATEMENTS }}
+{{ DECLARATION }} {{ CLASS }} extends {{ ABSTRACT }}
+{
+    public function rules(): array
+    {
+        return $this->builder([
+			//TODO: define/modify your rules with [] or parent::rules()
+		])->get();
+    }
+}

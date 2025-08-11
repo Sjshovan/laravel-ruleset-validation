@@ -1,0 +1,19 @@
+<?php
+
+namespace {{ NAMESPACE }};
+{{ USE_STATEMENTS }}
+{{ DECLARATION }} {{ CLASS }} extends {{ ABSTRACT }}
+{
+	protected static function modelClass(): string
+	{
+		return {{ MODEL }}::class;
+	}
+
+    public function rules(): array
+    {
+        return $this->builder([
+			//TODO: define/modify your rules with [] or parent::rules()
+		])->get();
+    }
+}
+

@@ -1,0 +1,51 @@
+# Composer
+/vendor
+/composer.lock
+/composer.phar
+
+# PHPUnit
+.phpunit.result.cache
+/coverage
+/report
+/tests/_output
+
+# Laravel IDE Helper (if used)
+/_ide_helper.phpco
+/_ide_helper_models.php
+
+# Static analysis / tools
+/.php-cs-fixer.cache
+/phpstan.neon.cache
+
+# IDEs and editors
+# PHPStorm
+/.idea
+*.iml
+
+# VS Code
+.vscode/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# OS/system files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# Node (if front-end build scripts exist)
+/node_modules
+/npm-debug.log
+/yarn-error.log
+
+# Build artifacts (if applicable)
+/build
+/dist
+
+# Misc
+*.log
+.env
+.env.*

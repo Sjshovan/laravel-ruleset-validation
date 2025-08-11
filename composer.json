@@ -1,0 +1,53 @@
+{
+  "name": "sjshovan/laravel-ruleset-validation",
+  "description": "A modular, object-oriented validation system for Laravel",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Sid Shovan",
+      "email": "sjshovan@gmail.com",
+      "homepage": "https://github.com/sjshovan"
+    }
+  ],
+  "homepage": "https://github.com/sjshovan/laravel-ruleset-validation",
+  "keywords": [
+    "Laravel",
+    "Rules",
+    "Ruleset",
+    "Validation",
+    "RulesValidation",
+    "RulesetValidation"
+  ],
+  "require": {
+    "php": "^8.2",
+    "illuminate/support": "^9.0|^10.0|^11.0|^12.0",
+    "spatie/laravel-package-tools": "^1.92",
+    "spatie/php-structure-discoverer": "^2.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~9.0",
+    "orchestra/testbench": "~7"
+  },
+  "autoload": {
+    "psr-4": {
+      "Sjshovan\\RulesetValidation\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Sjshovan\\RulesetValidation\\Tests\\": "tests"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Sjshovan\\RulesetValidation\\RulesetValidationServiceProvider"
+      ]
+    }
+  },
+  "scripts": {
+    "test": [
+      "vendor/bin/phpunit"
+    ]
+  }
+}
