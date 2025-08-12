@@ -1,19 +1,18 @@
-<div>
-  <!-- Replace this with your own banner URL or ASCII -->
-  <a href="https://your-site.com/">
-    <img alt="Your Package Banner" src="https://your-site.com/banner-light.webp">
-  </a>
+<div align="left">
+    <a href="https://github.com/sjshovan/laravel-ruleset-validation">
+      <picture>
+        <img alt="Logo for laravel-ruleset-validation" src=".github/images/banner.png">
+      </picture>
+    </a>
+
+<h1>A modular, object-oriented validation system for Laravel.</h1>
+
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/sjshovan/laravel-ruleset-validation.svg?style=flat-square)](https://packagist.org/packages/sjshovan/laravel-ruleset-validation)
+[![Tests](https://github.com/sjshovan/laravel-ruleset-validation/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/Sjshovan/laravel-ruleset-validation/actions/workflows/test.yaml)
+[![Total Downloads](https://img.shields.io/packagist/dt/sjshovan/laravel-ruleset-validation.svg?style=flat-square)](https://packagist.org/packages/sjshovan/laravel-ruleset-validation)
 </div>
 
-[![Latest Version on Packagist][ico-version]][link-packagist]
-[![Total Downloads][ico-downloads]][link-downloads]
-[![Build Status][ico-travis]][link-travis]
-[![StyleCI][ico-styleci]][link-styleci]
-
 ## Abstract
-
-> **Laravel Ruleset Validation** is a modular, object-oriented validation system for Laravel.
-> It encapsulates validation logic into reusable, class-based rulesets that promote structure, reuse, and testability.
 
 Unlike traditional array-based rules scattered across controllers and form requests,
 this package introduces **standalone** and **model-aware** ruleset classes with support for:
