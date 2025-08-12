@@ -1,7 +1,7 @@
 <div align="left">
     <a href="https://github.com/sjshovan/laravel-ruleset-validation">
       <picture>
-        <img alt="Logo for laravel-ruleset-validation" src=".github/images/banner.png">
+        <img alt="Logo for laravel-ruleset-validation" src="https://github.com/Sjshovan/laravel-ruleset-validation/blob/main/.github/images/banner.png">
       </picture>
     </a>
 
