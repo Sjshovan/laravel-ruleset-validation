@@ -17,7 +17,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Replace test annotations with portable `test_` method names and remove obsolete PHPUnit configuration.
 - Use SQLite in CI, pin workflow actions, and report legacy dependency advisories separately from enforced current-framework audits.
-- Document the single-main, tagged-release workflow. No public ruleset API or default factory behavior changes.
 
 ### Fixed
 

@@ -40,10 +40,6 @@ The package retains its PHP 8.2 minimum; Laravel 13 itself requires PHP 8.3 or n
 Composer selects compatible dependency versions for the application's framework and PHP version.
 Laravel 13 support starts with version 1.1.0.
 
-Development uses one `main` branch and short-lived feature branches. Stable releases use version tags.
-Existing `v1.0.x` tags remain available, and a `^1.0` constraint will not select a future 2.x release.
-Add a maintenance branch only when an older major needs backported fixes.
-
 ---
 
 ## Table of Contents
