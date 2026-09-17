@@ -5,37 +5,73 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   test:
+    name: Laravel ${{ matrix.laravel }} / PHP ${{ matrix.php }}
     runs-on: ubuntu-latest
-
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: testing
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping --silent"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {laravel: '9.*', php: '8.2', testbench: '^7.0', phpunit: '^9.6', legacy: true}
+          - {laravel: '10.*', php: '8.2', testbench: '^8.0', phpunit: '^10.5', legacy: true}
+          - {laravel: '11.*', php: '8.2', testbench: '^9.0', phpunit: '^11.5', legacy: true}
+          - {laravel: '12.*', php: '8.2', testbench: '^10.0', phpunit: '^11.5'}
+          - {laravel: '12.*', php: '8.5', testbench: '^10.0', phpunit: '^12.5'}
+          - {laravel: '13.*', php: '8.3', testbench: '^11.0', phpunit: '^12.5'}
+          - {laravel: '13.*', php: '8.4', testbench: '^11.0', phpunit: '^12.5'}
+          - {laravel: '13.*', php: '8.5', testbench: '^11.0', phpunit: '^12.5'}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Set up PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
         with:
-          php-version: '8.2'
-          extensions: mbstring, pdo, mysql, zip, pcntl
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, pdo_sqlite, zip
+          tools: composer:v2
           coverage: none
 
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress
+      - name: Validate package metadata
+        run: composer validate --strict
 
-      - name: Run Tests
+      - name: Select framework and test runner
+        env:
+          LARAVEL_VERSION: ${{ matrix.laravel }}
+          TESTBENCH_VERSION: ${{ matrix.testbench }}
+          PHPUNIT_VERSION: ${{ matrix.phpunit }}
+        run: composer require --dev "laravel/framework:$LARAVEL_VERSION" "orchestra/testbench:$TESTBENCH_VERSION" "phpunit/phpunit:$PHPUNIT_VERSION" --no-update --no-interaction
+
+      - name: Install dependencies
+        if: ${{ !matrix.legacy }}
+        run: composer update --prefer-dist --no-progress --no-interaction
+
+      # EOL framework compatibility only: this exception never enters the package's composer.json.
+      - name: Install legacy compatibility dependencies
+        if: ${{ matrix.legacy }}
+        run: composer update --prefer-dist --no-progress --no-interaction --no-security-blocking
+
+      - name: Run tests
         run: composer test
+
+      - name: Audit dependencies
+        if: ${{ !matrix.legacy }}
+        run: composer audit
+
+      - name: Report legacy framework advisories
+        if: ${{ matrix.legacy }}
+        run: |
+          set +e
+          composer audit
+          result=$?
+          if [ "$result" -ne 0 ]; then
+            echo "::warning::Legacy dependency audit returned $result. Compatibility does not mean this EOL framework is secure; see the audit output."
+            echo "Legacy dependency audit returned $result; review this job's audit output. Use a maintained Laravel version for new applications." >> "$GITHUB_STEP_SUMMARY"
+          fi
