@@ -19,8 +19,7 @@ class TestPost extends Model
 
 class RulesetValidationTest extends TestCase
 {
-    /** @test */
-    public function it_instantiates_via_helpers()
+    public function test_it_instantiates_via_helpers()
     {
         $s = new class extends BaseRuleset{
             public function rules(): array
@@ -45,8 +44,7 @@ class RulesetValidationTest extends TestCase
         $this->assertInstanceOf(get_class($m), $m::for(new TestPost()));
     }
 
-    /** @test */
-    public function it_rejects_wrong_model_type()
+    public function test_it_rejects_wrong_model_type()
     {
         $this->expectException(\LogicException::class);
 
@@ -63,8 +61,7 @@ class RulesetValidationTest extends TestCase
         });
     }
 
-    /** @test */
-    public function it_respects_global_validator_extensions()
+    public function test_it_respects_global_validator_extensions()
     {
         ValidatorFacade::extend('is_foo', fn($attribute, $value) => $value === 'foo');
 
@@ -79,8 +76,7 @@ class RulesetValidationTest extends TestCase
         $this->assertTrue($ruleset->validator(['x' => 'bar'])->fails());
     }
 
-    /** @test */
-    public function it_validates_using_ruleset_validator_on_standard_ruleset(): void
+    public function test_it_validates_using_ruleset_validator_on_standard_ruleset(): void
     {
         $validator = (new class extends BaseRuleset{
             public function rules(): array
@@ -95,8 +91,7 @@ class RulesetValidationTest extends TestCase
         $this->assertTrue($validator->passes(), 'Expected standard ruleset to pass validation');
     }
 
-    /** @test */
-    public function it_fails_validation_on_missing_required_fields(): void
+    public function test_it_fails_validation_on_missing_required_fields(): void
     {
         $validator = (new class extends BaseRuleset{
             public function rules(): array
@@ -113,8 +108,7 @@ class RulesetValidationTest extends TestCase
         $this->assertArrayHasKey('email', $validator->errors()->toArray(), 'Expected email to have an error');
     }
 
-    /** @test */
-    public function it_builds_a_validator_via_the_custom_factory(): void
+    public function test_it_builds_a_validator_via_the_custom_factory(): void
     {
         $ruleset = new class extends BaseRuleset{
             public function rules(): array
@@ -132,8 +126,7 @@ class RulesetValidationTest extends TestCase
         $this->assertTrue($validator->passes(), 'Expected factory-built validator to pass');
     }
 
-    /** @test */
-    public function it_uses_the_decorator_when_enabled(): void
+    public function test_it_uses_the_decorator_when_enabled(): void
     {
         $ruleset = new class extends BaseRuleset{
             public function rules(): array
@@ -151,8 +144,7 @@ class RulesetValidationTest extends TestCase
         $this->assertTrue($validator->passes(), 'Expected decorator-based validator to pass');
     }
 
-    /** @test */
-    public function it_can_reference_the_model_and_validate_uniqueness(): void
+    public function test_it_can_reference_the_model_and_validate_uniqueness(): void
     {
         $post1 = TestPost::create(['slug' => 'my-first-post']);
 
@@ -182,8 +174,7 @@ class RulesetValidationTest extends TestCase
         $this->assertTrue($validator->fails(), 'Expected unique rule to fail for different model id');
     }
 
-    /** @test */
-    public function it_allows_custom_validation_rule_in_ruleset()
+    public function test_it_allows_custom_validation_rule_in_ruleset()
     {
         $ruleset = new class() extends BaseRuleset{
             public function rules(): array
@@ -203,8 +194,7 @@ class RulesetValidationTest extends TestCase
         $this->assertTrue($validator->fails(), 'Custom validation rule should fail');
     }
 
-    /** @test */
-    public function model_aware_ruleset_support_nullable_fields()
+    public function test_model_aware_ruleset_support_nullable_fields()
     {
         $post = TestPost::create(['slug' => 'my-first-post']);
 
@@ -224,8 +214,7 @@ class RulesetValidationTest extends TestCase
         $this->assertTrue($validator->passes(), 'Nullable slug should pass validation when it is null');
     }
 
-    /** @test */
-    public function it_validates_multiple_fields_with_complex_rules()
+    public function test_it_validates_multiple_fields_with_complex_rules()
     {
         $ruleset = new class() extends BaseRuleset{
             public function rules(): array
@@ -247,8 +236,7 @@ class RulesetValidationTest extends TestCase
         $this->assertTrue($validator->passes(), 'Expected complex rule validation to pass');
     }
 
-    /** @test */
-    public function it_validates_required_if_condition()
+    public function test_it_validates_required_if_condition()
     {
         $ruleset = new class() extends BaseRuleset{
             public function rules(): array
@@ -267,8 +255,7 @@ class RulesetValidationTest extends TestCase
         $this->assertTrue($validator->fails(), 'Password is required when email is provided and password is missing');
     }
 
-    /** @test */
-    public function it_returns_custom_error_messages()
+    public function test_it_returns_custom_error_messages()
     {
         $ruleset = new class() extends BaseRuleset{
             public function rules(): array
@@ -287,8 +274,7 @@ class RulesetValidationTest extends TestCase
         $this->assertEquals('Email is mandatory', $validator->errors()->first('email'));
     }
 
-    /** @test */
-    public function it_returns_custom_attributes_in_error_messages()
+    public function test_it_returns_custom_attributes_in_error_messages()
     {
         $ruleset = new class() extends BaseRuleset{
             public function rules(): array

@@ -163,7 +163,7 @@ class RulesetListCommand extends Command
     ): Discover
     {
         return Discover::in(...$directories)->any(
-            ConditionBuilder::create()->classes()->custom(
+            (new ConditionBuilder())->classes()->custom(
                 function (DiscoveredStructure $structure) use (
                     $onlyRegular,
                     $onlyAbstract,

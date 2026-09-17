@@ -252,7 +252,7 @@ class RulesetMakeCommand extends GeneratorCommand
 
         $sanitized = $this->sanitizeInput($this->argument(self::ARG_NAME));
 
-        $name = Package::usesRulesetSuffix() && Str::doesntContain($sanitized, Package::getRulesetSuffix())
+        $name = Package::usesRulesetSuffix() && ! Str::contains($sanitized, Package::getRulesetSuffix())
             ? $sanitized.Package::getRulesetSuffix()
             : $sanitized;
 
@@ -511,8 +511,8 @@ class RulesetMakeCommand extends GeneratorCommand
         // first try to find classes that extend our given class name directly otherwise,
         // see if it's a child class
         return Discover::in(...$directories)->any(
-            ConditionBuilder::create()->classes()->extending($fqcn),
-            ConditionBuilder::create()->classes()->custom(
+            (new ConditionBuilder())->classes()->extending($fqcn),
+            (new ConditionBuilder())->classes()->custom(
                 fn(DiscoveredStructure $structure) => is_subclass_of($structure->getFcqn(), $fqcn)
             )
         );

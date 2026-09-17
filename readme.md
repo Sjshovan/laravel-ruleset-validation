@@ -33,7 +33,16 @@ where validation rules often become deeply nested, repetitive, or context-specif
 
 | Laravel Versions | Ruleset Validation Version | PHP Version |
 |------------------|----------------------------|-------------|
-| ≥ 9.x            | 1.x                        | ≥ 8.2       |
+| 9.x–12.x         | 1.0.x / upcoming 1.1.x      | ^8.2        |
+| 13.x             | Upcoming 1.1.x (unreleased) | ^8.3        |
+
+The package retains its PHP 8.2 minimum; Laravel 13 itself requires PHP 8.3 or newer.
+Composer selects compatible dependency versions for the application's framework and PHP version.
+Laravel 13 support is currently on `feature/laravel-13-compatibility`; it is not included in `v1.0.1`.
+
+Development uses one `main` branch and short-lived feature branches. Stable releases use version tags.
+Existing `v1.0.x` tags remain available, and a `^1.0` constraint will not select a future 2.x release.
+Add a maintenance branch only when an older major needs backported fixes.
 
 ---
 
@@ -476,6 +485,16 @@ It provides:
 ```bash
 composer test
 ```
+
+CI exercises Laravel 9–13 with the matching Testbench and PHPUnit versions. It tests PHP 8.2 for
+Laravel 9–12, PHP 8.5 for Laravel 12, and PHP 8.3/8.4/8.5 for Laravel 13. Tests use in-memory SQLite;
+no database service is needed. Test method names work across PHPUnit 9–12 without annotation support.
+
+Laravel 9–11 jobs check legacy compatibility only. Those isolated CI installs permit known upstream
+advisories so the tests can run, and report audit findings as visible warnings. Laravel 12/13 jobs
+require both secure dependency resolution and a passing audit. No audit exceptions are included in
+the package's Composer configuration. Use a maintained Laravel release for new applications;
+compatibility with an older framework does not imply it still receives security fixes.
 
 ---
 

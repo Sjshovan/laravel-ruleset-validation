@@ -14,7 +14,9 @@ abstract class TestCase extends Base
 {
     use RefreshDatabase;
 
-    protected string $rulesetDir;
+    protected string $rulesetDir = '';
+
+    protected string $factoryMode = 'decorator';
 
     protected function getPackageProviders($app)
     {
@@ -25,7 +27,7 @@ abstract class TestCase extends Base
     {
         parent::setUp();
 
-        $this->rulesetDir = app_path(__DIR__.'/../tests/tmp');
+        $this->rulesetDir = app_path('Rulesets');
 
         // Clean & recreate the directory fresh each test
         $fs = new Filesystem();
@@ -36,7 +38,8 @@ abstract class TestCase extends Base
     protected function getEnvironmentSetUp($app)
     {
         $app['config']->set('ruleset-validation', require __DIR__.'/../config/ruleset-validation.php');
-        $app['config']->set('ruleset-validation.behavior.factory_decorator', true); // enable decorator for tests
+        $app['config']->set('ruleset-validation.behavior.factory_decorator', $this->factoryMode === 'decorator');
+        $app['config']->set('ruleset-validation.behavior.factory_concrete', $this->factoryMode === 'concrete');
 
         // DB: in-memory sqlite
         $app['config']->set('database.default', 'testing');

@@ -10,8 +10,7 @@ use Sjshovan\RulesetValidation\Tests\TestCase;
 
 class RuleBuilderTest extends TestCase
 {
-    /** @test */
-    public function it_supports_fluent_composition(): void
+    public function test_it_supports_fluent_composition(): void
     {
         $rules = (new class extends BaseRuleset{
             public function rules(): array
@@ -37,8 +36,7 @@ class RuleBuilderTest extends TestCase
         $this->assertArrayNotHasKey('weight', $rules, 'Expected weight to be removed');
     }
 
-    /** @test */
-    public function it_adds_and_prepends_rules_and_normalizes_strings()
+    public function test_it_adds_and_prepends_rules_and_normalizes_strings()
     {
         $rules = RuleBuilder::new([
             'email' => 'required|string|email',
@@ -53,8 +51,7 @@ class RuleBuilderTest extends TestCase
         );
     }
 
-    /** @test */
-    public function it_merges_arrays_and_pipe_strings_and_dedupes()
+    public function test_it_merges_arrays_and_pipe_strings_and_dedupes()
     {
         $rules = RuleBuilder::new([
             'email' => 'required|email',
@@ -67,8 +64,7 @@ class RuleBuilderTest extends TestCase
         $this->assertSame(['required', 'email', 'max:64'], $rules['email']);
     }
 
-    /** @test */
-    public function it_removes_keys()
+    public function test_it_removes_keys()
     {
         $rules = RuleBuilder::new([
             'a' => 'string',
@@ -83,8 +79,7 @@ class RuleBuilderTest extends TestCase
         $this->assertArrayNotHasKey('c', $rules);
     }
 
-    /** @test */
-    public function it_ignores_remove_for_missing_keys()
+    public function test_it_ignores_remove_for_missing_keys()
     {
         $rules = RuleBuilder::new([
             'x' => 'int',
@@ -96,8 +91,7 @@ class RuleBuilderTest extends TestCase
         $this->assertSame(['int'], $rules['x']);
     }
 
-    /** @test */
-    public function it_clears_and_sets_fresh_rules()
+    public function test_it_clears_and_sets_fresh_rules()
     {
         $rules = RuleBuilder::new([
             'email' => 'required|email',
@@ -110,8 +104,7 @@ class RuleBuilderTest extends TestCase
         $this->assertSame(['required'], $rules['username']);
     }
 
-    /** @test */
-    public function it_prepends_all_with_optional_exclusions()
+    public function test_it_prepends_all_with_optional_exclusions()
     {
         $rules = RuleBuilder::new([
             'name' => 'string',
@@ -124,8 +117,7 @@ class RuleBuilderTest extends TestCase
         $this->assertSame(['email'], $rules['email']); // untouched
     }
 
-    /** @test */
-    public function it_applies_when_conditionally_true_and_skips_when_false()
+    public function test_it_applies_when_conditionally_true_and_skips_when_false()
     {
         $on = RuleBuilder::new([])->when(true, function ($b) {
             $b->set('x', 'required');
@@ -139,8 +131,7 @@ class RuleBuilderTest extends TestCase
         $this->assertArrayNotHasKey('x', $off);
     }
 
-    /** @test */
-    public function it_collects_rules_as_a_collection()
+    public function test_it_collects_rules_as_a_collection()
     {
         $collection = RuleBuilder::new(['title' => 'required|string'])->collect();
 
@@ -148,8 +139,7 @@ class RuleBuilderTest extends TestCase
         $this->assertSame(['required', 'string'], $collection->get('title'));
     }
 
-    /** @test */
-    public function its_overwrites_with_set_while_add_appends()
+    public function test_its_overwrites_with_set_while_add_appends()
     {
         $rules = RuleBuilder::new([])
                             ->set('email', 'required|email')
@@ -159,8 +149,7 @@ class RuleBuilderTest extends TestCase
         $this->assertSame(['required', 'email', 'max:191'], $rules['email']);
     }
 
-    /** @test */
-    public function it_adds_new_keys_and_merges_existing_keys()
+    public function test_it_adds_new_keys_and_merges_existing_keys()
     {
         $rules = RuleBuilder::new([
             'name' => 'required|string',
@@ -175,8 +164,7 @@ class RuleBuilderTest extends TestCase
         $this->assertSame(['nullable', 'email'], $rules['email']);
     }
 
-    /** @test */
-    public function it_normalizes_all_mixed_rule_inputs(): void
+    public function test_it_normalizes_all_mixed_rule_inputs(): void
     {
         $customRule = new class implements Rule{
             public function passes($attribute, $value): bool
@@ -313,8 +301,7 @@ class RuleBuilderTest extends TestCase
         }
     }
 
-    /** @test */
-    public function it_prepends_flat_and_dedupes_from_tail()
+    public function test_it_prepends_flat_and_dedupes_from_tail()
     {
         $rules = RuleBuilder::new(['x' => ['required', 'string']])
                             ->prepend('x', ['required', 'nullable'])
@@ -323,15 +310,13 @@ class RuleBuilderTest extends TestCase
         $this->assertSame(['required', 'nullable', 'string'], $rules['x']); // no ['required', ...] nesting
     }
 
-    /** @test */
-    public function it_keeps_string_and_int_versions_distinct()
+    public function test_it_keeps_string_and_int_versions_distinct()
     {
         $rules = RuleBuilder::new()->set('f', ['0', 0, 'in:0,1'])->get();
         $this->assertSame(['0', 0, 'in:0,1'], $rules['f']);
     }
 
-    /** @test */
-    public function it_yield_identical_results_for_variadic_and_single_array_paths()
+    public function test_it_yield_identical_results_for_variadic_and_single_array_paths()
     {
         $input = ['required|string', ['email', ['max:255']], 'nullable|email', ['string']];
 
