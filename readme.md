@@ -33,12 +33,12 @@ where validation rules often become deeply nested, repetitive, or context-specif
 
 | Laravel Versions | Ruleset Validation Version | PHP Version |
 |------------------|----------------------------|-------------|
-| 9.x–12.x         | 1.0.x / upcoming 1.1.x      | ^8.2        |
-| 13.x             | Upcoming 1.1.x (unreleased) | ^8.3        |
+| 9.x–12.x         | 1.0.x, 1.1.x               | ^8.2        |
+| 13.x             | 1.1.x                      | ^8.3        |
 
 The package retains its PHP 8.2 minimum; Laravel 13 itself requires PHP 8.3 or newer.
 Composer selects compatible dependency versions for the application's framework and PHP version.
-Laravel 13 support is currently on `feature/laravel-13-compatibility`; it is not included in `v1.0.1`.
+Laravel 13 support starts with version 1.1.0.
 
 Development uses one `main` branch and short-lived feature branches. Stable releases use version tags.
 Existing `v1.0.x` tags remain available, and a `^1.0` constraint will not select a future 2.x release.
